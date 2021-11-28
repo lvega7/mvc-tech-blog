@@ -47,9 +47,30 @@ router.post('/', (req, res) => {
           res.status(500).json(err);
         });
 });
+router.post('/login', (req, res) => {
+
+    User.findOne({
+        where: {
+          email: req.body.email
+        }
+      }).then(data => {
+        if (!data) {
+          res.status(400).json({ message: 'No user with that email address!' });
+          return;
+        }
+    
+        res.json({ user: data });
+    
+        // Verify user
+    
+      });  
+  
+  })
+  
 
 // PUT /api/users/1
 router.put('/:id', (req, res) => {
+    individualHooks: true,
     User.update(req.body, {
         where: {
           id: req.params.id
